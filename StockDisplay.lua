@@ -516,7 +516,7 @@ local function main()
     -- Run the graph in an infinite loop
     while true do
         
-            for i = 0, 8 do
+            for m = 0, 8 do
                 -- Get the display
                 local display, box = checkDisplay("pixelbox_lite")
 
@@ -535,7 +535,7 @@ local function main()
                 if numDisplayPoints > numDataPoints then numDisplayPoints = numDataPoints end
 
                 -- Draw the graph
-                drawGraph(stocks[1][i], box, decoded, numDisplayPoints, interval, gmtTimestamp)
+                drawGraph(stocks[1][m], box, decoded, numDisplayPoints, interval, gmtTimestamp)
 
                 -- Add a random delay between 20 seconds and 60 before refreshing the stock data
                 local sleepTime = math.random() * 40 + 20
