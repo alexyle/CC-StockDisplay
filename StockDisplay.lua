@@ -515,7 +515,8 @@ local function main()
 
     -- Run the graph in an infinite loop
     while true do
-        
+        local stocks = {"AAPL", "GOOGL", "AMZN", "META", "MSFT", "TSLA", "BABA", "NQ=F"}
+        }
             for m = 0, 8 do
                 -- Get the display
                 local display, box = checkDisplay("pixelbox_lite")
