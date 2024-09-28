@@ -518,8 +518,9 @@ local function main()
         local sto = {"AAPL", "GOOGL", "AMZN", "META", "MSFT", "TSLA", "BABA", "NQ=F"}
             for m = 0, 8 do
                 -- Get the display
+                local val = tostring(sto[m])
                 local display, box = checkDisplay("pixelbox_lite")
-                printDebug(sto[m])
+                
                 -- Download and Load stock data
                 if getStockData(stockSymbol, region, interval, range) == 1 then
                     return
