@@ -515,7 +515,7 @@ local function main()
 
     -- Run the graph in an infinite loop
     while true do
-        local stocks = {"AAPL", "GOOGL", "AMZN", "META", "MSFT", "TSLA", "BABA", "NQ=F"}
+        local sto = {"AAPL", "GOOGL", "AMZN", "META", "MSFT", "TSLA", "BABA", "NQ=F"}
         }
             for m = 0, 8 do
                 -- Get the display
@@ -536,7 +536,7 @@ local function main()
                 if numDisplayPoints > numDataPoints then numDisplayPoints = numDataPoints end
 
                 -- Draw the graph
-                drawGraph(stocks[m][1], box, decoded, numDisplayPoints, interval, gmtTimestamp)
+                drawGraph(sto[m], box, decoded, numDisplayPoints, interval, gmtTimestamp)
 
                 -- Add a random delay between 20 seconds and 60 before refreshing the stock data
                 local sleepTime = math.random() * 40 + 20
