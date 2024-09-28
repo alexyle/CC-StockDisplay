@@ -237,14 +237,15 @@ local function checkDisplay(libName)
             term.redirect(display)
             term.clear()
             printDebug("Info: Monitor found to the " .. sides[i])
+            break  -- Exit the loop once a monitor is found
         end
     end
     if not display then
         printDebug("Info: No monitor found, using term")
-        display = term
+        display = term.current()  -- Use the current terminal if no monitor is found
     end
     display.setBackgroundColor(backgroundColor)
-    local box = require(libName).new(term.current())
+    local box = require(libName).new(display)  -- Pass 'display' instead of 'term.current()'
     return display, box
 end
 
@@ -515,35 +516,33 @@ local function main()
 
     -- Run the graph in an infinite loop
     while true do
-        local sto = {"AAPL", "GOOGL", "AMZN", "META", "MSFT", "TSLA", "BABA", "NQ=F"}
-            for m = 0, 8 do
-                -- Get the display
-                local val = tostring(sto[m])
-                local display, box = checkDisplay("pixelbox_lite")
-                
-                -- Download and Load stock data
-                if getStockData(stockSymbol, region, interval, range) == 1 then
-                    return
-                end
-                local decoded = loadStockData("stock_data.json")
-                if not decoded then
-                    return 1
-                end
-
-                -- Set the max number of display points
-                local numDisplayPoints = box.width
-                local numDataPoints = #decoded["chart"]["result"][1]["indicators"]["quote"][1]["close"]
-                if numDisplayPoints > numDataPoints then numDisplayPoints = numDataPoints end
-
-                -- Draw the graph
-                drawGraph(val, box, decoded, numDisplayPoints, interval, gmtTimestamp)
-
-                -- Add a random delay between 20 seconds and 60 before refreshing the stock data
-                local sleepTime = math.random() * 40 + 20
-                printDebug("Info: Sleeping for " .. math.ceil(sleepTime) .. "s until update")
-                os.sleep(sleepTime)
-
+        local stocks = {"AAPL", "GOOGL", "AMZN", "META", "MSFT", "TSLA", "BABA", "NQ=F"}
+        for _, stockSymbol in ipairs(stocks) do
+            -- Get the display
+            local display, box = checkDisplay("pixelbox_lite")
+            
+            -- Download and Load stock data
+            if getStockData(stockSymbol, region, interval, range) == 1 then
+                return
             end
+            local decoded = loadStockData("stock_data.json")
+            if not decoded then
+                return 1
+            end
+    
+            -- Set the max number of display points
+            local numDisplayPoints = box.width
+            local numDataPoints = #decoded["chart"]["result"][1]["indicators"]["quote"][1]["close"]
+            if numDisplayPoints > numDataPoints then numDisplayPoints = numDataPoints end
+    
+            -- Draw the graph
+            drawGraph(display, box, decoded, numDisplayPoints, interval, gmtTimestamp)
+    
+            -- Add a random delay between 20 seconds and 60 before refreshing the stock data
+            local sleepTime = math.random() * 40 + 20
+            printDebug("Info: Sleeping for " .. math.ceil(sleepTime) .. "s until update")
+            os.sleep(sleepTime)
+        end
     end
 end
 
