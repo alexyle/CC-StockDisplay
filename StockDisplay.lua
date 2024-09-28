@@ -535,7 +535,7 @@ local function main()
                 if numDisplayPoints > numDataPoints then numDisplayPoints = numDataPoints end
 
                 -- Draw the graph
-                drawGraph(stocks[i], box, decoded, numDisplayPoints, interval, gmtTimestamp)
+                drawGraph(stocks[1][i], box, decoded, numDisplayPoints, interval, gmtTimestamp)
 
                 -- Add a random delay between 20 seconds and 60 before refreshing the stock data
                 local sleepTime = math.random() * 40 + 20
