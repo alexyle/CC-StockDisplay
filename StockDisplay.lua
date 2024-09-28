@@ -515,30 +515,34 @@ local function main()
 
     -- Run the graph in an infinite loop
     while true do
-        -- Get the display
-        local display, box = checkDisplay("pixelbox_lite")
+        
+            for i = 0, 8 do
+                -- Get the display
+                local display, box = checkDisplay("pixelbox_lite")
 
-        -- Download and Load stock data
-        if getStockData(stockSymbol, region, interval, range) == 1 then
-            return
-        end
-        local decoded = loadStockData("stock_data.json")
-        if not decoded then
-            return 1
-        end
+                -- Download and Load stock data
+                if getStockData(stockSymbol, region, interval, range) == 1 then
+                    return
+                end
+                local decoded = loadStockData("stock_data.json")
+                if not decoded then
+                    return 1
+                end
 
-        -- Set the max number of display points
-        local numDisplayPoints = box.width
-        local numDataPoints = #decoded["chart"]["result"][1]["indicators"]["quote"][1]["close"]
-        if numDisplayPoints > numDataPoints then numDisplayPoints = numDataPoints end
+                -- Set the max number of display points
+                local numDisplayPoints = box.width
+                local numDataPoints = #decoded["chart"]["result"][1]["indicators"]["quote"][1]["close"]
+                if numDisplayPoints > numDataPoints then numDisplayPoints = numDataPoints end
 
-        -- Draw the graph
-        drawGraph(display, box, decoded, numDisplayPoints, interval, gmtTimestamp)
+                -- Draw the graph
+                drawGraph(stocks[i], box, decoded, numDisplayPoints, interval, gmtTimestamp)
 
-        -- Add a random delay between 20 seconds and 60 before refreshing the stock data
-        local sleepTime = math.random() * 40 + 20
-        printDebug("Info: Sleeping for " .. math.ceil(sleepTime) .. "s until update")
-        os.sleep(sleepTime)
+                -- Add a random delay between 20 seconds and 60 before refreshing the stock data
+                local sleepTime = math.random() * 40 + 20
+                printDebug("Info: Sleeping for " .. math.ceil(sleepTime) .. "s until update")
+                os.sleep(sleepTime)
+
+            end
     end
 end
 
