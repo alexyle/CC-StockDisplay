@@ -519,7 +519,7 @@ local function main()
             for m = 0, 8 do
                 -- Get the display
                 local display, box = checkDisplay("pixelbox_lite")
-
+                printDebug(sto[m])
                 -- Download and Load stock data
                 if getStockData(stockSymbol, region, interval, range) == 1 then
                     return
