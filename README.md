@@ -18,7 +18,7 @@ The app can be installed by running the following command:
 
 First download the file from github and save it by running this:
 ```shell
-wget https://raw.githubusercontent.com/0ctoqus/CC-StockDisplay/main/StockDisplay.lua
+wget https://raw.githubusercontent.com/alexyle/CC-StockDisplay/refs/heads/main/StockDisplay.lua
 ```
 Then run the downloaded app:
 ```shell
